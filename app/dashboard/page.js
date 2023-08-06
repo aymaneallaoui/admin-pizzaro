@@ -1,12 +1,10 @@
-// pages/index.js
-// eslint-disable-next-line
 import Tabs from "../components/Tabs";
 
 const AdminDashboard = () => {
   const tabs = [
     "Orders",
     "Pizza managment",
-    "Users",
+    "clients",
     "Pizza Types",
     "Pizza Toppings",
   ];
@@ -31,10 +29,10 @@ export default AdminDashboard;
 // // export default page;
 
 // import React from "react";
-// import Pizza from "../components/PizzaType";
+// import Users from "../components/users";
 
 // function page() {
-//   return <Pizza />;
+//   return <Users />;
 // }
 
 // export default page;

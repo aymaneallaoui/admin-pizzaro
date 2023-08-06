@@ -1,12 +1,10 @@
 "use client";
-import { fa } from "faker/lib/locales";
 import React, { useState, useEffect } from "react";
 
 function Pizza() {
   const [Pizza, setPizza] = useState({});
   const [loading, setLoading] = useState(true);
   const [pizzadd, setPizzadd] = useState(false);
-  const [message, setMessage] = useState(false);
 
   function handleMesssageclose() {
     setPizzadd(false);
