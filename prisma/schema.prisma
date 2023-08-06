@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Order {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  totalAmount Float
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Pizza {
+  id    Int    @id @default(autoincrement())
+  name  String
+  price Float
+}
+
+model PizzaTopping {
+  id        Int @id @default(autoincrement())
+  pizzaId   Int
+  toppingId Int
+
+  @@unique([pizzaId, toppingId])
+}
+
+model PizzaroAdmin {
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  name     String
+  position String
+  password String
+}
+
+model Topping {
+  id    Int    @id @default(autoincrement())
+  name  String
+  price Float
+}
+
+model User {
+  id      Int     @id @default(autoincrement())
+  email   String  @unique
+  name    String
+  phone   String?
+  address String?
+}
+
+model OrderToPizza {
+  A Int
+  B Int
+
+  @@unique([A, B], map: "_OrderToPizza_AB_unique")
+  @@index([B], map: "_OrderToPizza_B_index")
+  @@map("_OrderToPizza")
+}

@@ -1,0 +1,165 @@
+"use client";
+import React, { useState, useEffect } from "react";
+
+function Orders() {
+  const [orders, setOrders] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const [usersResponse, ordersResponse] = await Promise.all([
+          fetch("/api/users").then((response) => response.json()),
+          fetch("/api/orders").then((response) => response.json()),
+        ]);
+        setUser(usersResponse);
+        setOrders(
+          ordersResponse.reduce((acc, order) => {
+            acc[order.id] = order;
+            return acc;
+          }, {})
+        );
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, []);
+
+  const totalAmountSum = Object.values(orders).reduce((total, order) => {
+    return total + order.totalAmount;
+  }, 0);
+
+  return (
+    <div className="container mx-auto px-4 bg-neutral-focus pt-4 ">
+      <h1 className=" text-4xl font-bold mb-4 text-center mt-4 ">All Orders</h1>
+      {loading ? (
+        <span className="loading loading-ring loading-lg bg-primary flex items-center justify-center"></span>
+      ) : (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <StatCard
+            icon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                className="w-8 h-8 stroke-current"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
+            }
+            title="Number of orders"
+            value={Object.keys(orders).length}
+          />
+
+          <StatCard
+            icon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                className="w-8 h-8 stroke-current"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+                ></path>
+              </svg>
+            }
+            title="Number of clients"
+            value={user.length}
+          />
+
+          <StatCard
+            icon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                className="w-8 h-8 stroke-current"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
+                ></path>
+              </svg>
+            }
+            title="Sales $$$"
+            value={`${totalAmountSum.toFixed(2)} $`}
+          />
+        </div>
+      )}
+      <div className="grid grid-cols-1 gap-4 mt-6 sm:grid-cols-2 md:grid-cols-3">
+        {Object.values(orders).map((order) => (
+          <OrderCard
+            key={order.id}
+            address={user[order.userId]?.address}
+            date={order.createdAt}
+            idOrder={order.id}
+            totalAmount={order.totalAmount}
+            userId={user[order.userId]?.name}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function StatCard({ icon, title, value }) {
+  return (
+    <div className="p-4 bg-accent shadow-lg rounded-lg">
+      <div className="flex items-center justify-center mb-2 text-blue-600">
+        {icon}
+      </div>
+      <div className="flex items-center justify-center text-xl font-semibold text-base-400">
+        {title}
+      </div>
+      <div className="flex items-center justify-center text-3xl font-bold text-base-content">
+        {value}
+      </div>
+    </div>
+  );
+}
+
+function OrderCard({ idOrder, totalAmount, date, userId, address }) {
+  return (
+    <div className="card w-full bg-base-200 shadow-xl card-normal">
+      <div className="card-body">
+        <h2 className=" text-base-content card-title">
+          Order Number: {idOrder}
+        </h2>
+        <p>
+          {" "}
+          <span className="text-base-content"> Total Amount: </span>{" "}
+          {totalAmount.toFixed(2)} ${" "}
+        </p>
+        <p>
+          {" "}
+          <span className="text-base-content"> Client Name: </span> {userId}
+        </p>
+        <p>
+          {" "}
+          <span className="text-base-content"> Client Address:</span> {address}
+        </p>
+        <p>
+          {" "}
+          <span className="text-base-content"> Order Date: </span> {date}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+export default Orders;
