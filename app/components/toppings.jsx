@@ -1,29 +1,29 @@
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
 
-function Pizza() {
-  const [pizzaList, setPizzaList] = useState([]);
+function Topping() {
+  const [toppingsList, settoppingsList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [pizzadd, setPizzadd] = useState(false);
+  const [Toppingdd, setToppingdd] = useState(false);
   const [totalAmountSum, setTotalAmountSum] = useState(0);
 
   const handleMesssageclose = useCallback(() => {
-    setPizzadd(false);
+    setToppingdd(false);
   }, []);
 
-  const handlePizzaddChange = useCallback((value) => {
-    setPizzadd(value);
+  const handleToppingddChange = useCallback((value) => {
+    setToppingdd(value);
   }, []);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const [pizzaResponse] = await Promise.all([
-          fetch("/api/pizza").then((response) => response.json()),
+        const [ToppingResponse] = await Promise.all([
+          fetch("/api/toppings").then((response) => response.json()),
         ]);
-        setPizzaList(pizzaResponse);
-        const totalAmountSum = pizzaResponse.reduce((total, pizza) => {
-          return +(total + pizza.price).toFixed(2);
+        settoppingsList(ToppingResponse);
+        const totalAmountSum = ToppingResponse.reduce((total, Topping) => {
+          return +(total + Topping.price).toFixed(2);
         }, 0);
         setTotalAmountSum(totalAmountSum);
         setLoading(false);
@@ -38,7 +38,9 @@ function Pizza() {
   return (
     <>
       <div className="container mx-auto px-4 bg-neutral-focus pt-4 ">
-        <h1 className="text-4xl font-bold mb-4 text-center mt-4">All Pizza</h1>
+        <h1 className="text-4xl font-bold mb-4 text-center mt-4">
+          All Topping
+        </h1>
         {loading ? (
           <span className="loading loading-ring loading-lg bg-primary flex items-center justify-center"></span>
         ) : (
@@ -60,8 +62,8 @@ function Pizza() {
                     ></path>
                   </svg>
                 }
-                title="Number of Pizza"
-                value={pizzaList.length}
+                title="Number of Topping"
+                value={toppingsList.length}
               />
 
               <StatCard
@@ -83,17 +85,29 @@ function Pizza() {
                 title="Total price of menu"
                 value={totalAmountSum}
               />
-              <div className="card w-full bg-accent shadow-xl card-normal">
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 mt-6 sm:grid-cols-2 md:grid-cols-3">
+              {toppingsList.map((Topping) => (
+                <OrderCard
+                  key={Topping.id}
+                  ToppingName={Topping.name}
+                  ToppingId={Topping.id}
+                  ToppingPrice={Topping.price}
+                />
+              ))}
+
+              <div className="card w-full bg-base-200 shadow-xl card-normal">
                 <div className="card-body">
                   <div
                     className="tooltip"
-                    data-tip="Click here to add new pizza"
+                    data-tip="Click here to add new Topping"
                   >
                     <button
-                      className="btn mt-2"
+                      className="btn"
                       onClick={() => window.my_modal_5.showModal()}
                     >
-                      Add New Pizza
+                      Add New Topping
                     </button>
                   </div>
                 </div>
@@ -109,25 +123,16 @@ function Pizza() {
                   >
                     ✕
                   </button>
-                  <AddPizzaForm handlePizzaddChange={handlePizzaddChange} />
+                  <AddToppingForm
+                    handleToppingddChange={handleToppingddChange}
+                  />
                 </div>
               </dialog>
-            </div>
-
-            <div className="grid grid-cols-1 gap-4 mt-6 sm:grid-cols-2 md:grid-cols-3">
-              {pizzaList.map((pizza) => (
-                <OrderCard
-                  key={pizza.id}
-                  pizzaName={pizza.name}
-                  pizzaId={pizza.id}
-                  pizzaPrice={pizza.price}
-                />
-              ))}
             </div>
           </>
         )}
       </div>
-      {pizzadd ? (
+      {Toppingdd ? (
         <div className="alert alert-success">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -142,7 +147,7 @@ function Pizza() {
               d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <span>Your Pizza has been added</span>
+          <span>Your Topping has been added</span>
           <button
             className="btn btn-sm btn-primary"
             onClick={handleMesssageclose}
@@ -171,25 +176,28 @@ function StatCard({ icon, title, value }) {
   );
 }
 
-function OrderCard({ pizzaId, pizzaPrice, pizzaName }) {
+function OrderCard({ ToppingId, ToppingPrice, ToppingName }) {
   return (
     <div className="card w-full bg-base-200 shadow-xl card-normal">
       <div className="card-body">
-        <h2 className="text-base-content card-title">Pizza Id: {pizzaId}</h2>
+        <h2 className="text-base-content card-title">
+          Topping Id: {ToppingId}
+        </h2>
         <p>
-          <span className="text-base-content"> Pizza Price: </span> {pizzaPrice}{" "}
-          ${" "}
+          <span className="text-base-content"> Topping Price: </span>{" "}
+          {ToppingPrice} ${" "}
         </p>
 
         <p>
-          <span className="text-base-content"> Pizza Name: </span> {pizzaName}
+          <span className="text-base-content"> Topping Name: </span>{" "}
+          {ToppingName}
         </p>
       </div>
     </div>
   );
 }
 
-function AddPizzaForm({ handlePizzaddChange }) {
+function AddToppingForm({ handleToppingddChange }) {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [loading, setLoading] = useState(false);
@@ -198,7 +206,7 @@ function AddPizzaForm({ handlePizzaddChange }) {
     e.preventDefault();
     setLoading(true);
     try {
-      await fetch("/api/pizza", {
+      await fetch("/api/toppings", {
         method: "POST",
         body: JSON.stringify({ name, price }),
         headers: {
@@ -207,10 +215,10 @@ function AddPizzaForm({ handlePizzaddChange }) {
       });
       setName("");
       setPrice("");
-      handlePizzaddChange(true);
+      handleToppingddChange(true);
       window.my_modal_5.close();
     } catch (error) {
-      console.error("Error adding pizza", error);
+      console.error("Error adding Topping", error);
     } finally {
       setLoading(false);
     }
@@ -221,13 +229,13 @@ function AddPizzaForm({ handlePizzaddChange }) {
       <div className="card w-full shadow-xl card-normal">
         <form onSubmit={handleSubmit}>
           <div className="form-control">
-            <h2 className="text-base-content card-title">Add New Pizza</h2>
+            <h2 className="text-base-content card-title">Add New Topping</h2>
             <label className="label">
-              <span className="label-text">Pizza Name</span>
+              <span className="label-text">Topping Name</span>
             </label>
             <input
               type="text"
-              placeholder="Pizza Name"
+              placeholder="Topping Name"
               className="input input-bordered"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -235,11 +243,11 @@ function AddPizzaForm({ handlePizzaddChange }) {
           </div>
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Pizza Price</span>
+              <span className="label-text">Topping Price</span>
             </label>
             <input
               type="number"
-              placeholder="Pizza Price"
+              placeholder="Topping Price"
               className="input input-bordered"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
@@ -248,7 +256,7 @@ function AddPizzaForm({ handlePizzaddChange }) {
           <div className="form-control mt-6">
             <input
               type="submit"
-              value="Add Pizza"
+              value="Add Topping"
               className="btn btn-primary btn-sm"
               disabled={loading}
             />
@@ -259,4 +267,4 @@ function AddPizzaForm({ handlePizzaddChange }) {
   );
 }
 
-export default Pizza;
+export default Topping;

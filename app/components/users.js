@@ -26,16 +26,31 @@ function Users() {
       {loading ? (
         <span className="loading loading-ring loading-lg bg-primary flex items-center justify-center"></span>
       ) : (
-        <Table users={users} />
+        <>
+          <div class="flex justify-center">
+            <div class="stats shadow mb-4 px-10">
+              <div class="stat stat-horizontal">
+                <div class="stat-title">Total clients Number</div>
+                <div class="stat-value">{users.length}</div>
+                <div class="stat-desc">21% more than last month</div>
+              </div>
+            </div>
+          </div>
+          <Table users={users} />
+        </>
       )}
     </div>
   );
 }
 
 function Table({ users }) {
+  const handleContactClick = (email) => {
+    window.location.href = `mailto:${email}`;
+  };
+
   return (
-    <div className=" table ">
-      <table>
+    <div className=" overflow-x-auto ">
+      <table className="table">
         {/* head */}
         <thead>
           <tr>
@@ -44,6 +59,7 @@ function Table({ users }) {
             <th>phone</th>
             <th>email</th>
             <th>address</th>
+            <th>Contact</th>
           </tr>
         </thead>
         <tbody>
@@ -54,6 +70,14 @@ function Table({ users }) {
               <td>{user.phone}</td>
               <td>{user.email}</td>
               <td>{user.address}</td>
+              <td>
+                <button
+                  onClick={() => handleContactClick(user.email)}
+                  className="btn btn-base-content"
+                >
+                  Contact
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>

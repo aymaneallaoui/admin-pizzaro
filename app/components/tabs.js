@@ -4,6 +4,7 @@ import { useState } from "react";
 import Orders from "./orders";
 import Pizza from "./PizzaType";
 import Users from "./users";
+import Topping from "./toppings";
 
 const Tabs = ({ tabs, defaultTab }) => {
   const [activeTab, setActiveTab] = useState(defaultTab);
@@ -33,6 +34,7 @@ const Tabs = ({ tabs, defaultTab }) => {
       {activeTab === "Orders" && <Orders />}
       {activeTab === "Pizza managment" && <Pizza />}
       {activeTab === "clients" && <Users />}
+      {activeTab === "toppings Management" && <Topping />}
 
       {/* Add other tabs' content in a similar manner */}
     </>

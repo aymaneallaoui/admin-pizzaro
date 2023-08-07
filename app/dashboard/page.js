@@ -1,13 +1,7 @@
-import Tabs from "../components/Tabs";
+import Tabs from "../components/tabs";
 
 const AdminDashboard = () => {
-  const tabs = [
-    "Orders",
-    "Pizza managment",
-    "clients",
-    "Pizza Types",
-    "Pizza Toppings",
-  ];
+  const tabs = ["Orders", "Pizza managment", "clients", "toppings Management"];
 
   return (
     <div className="p-8 bg-neutral-focus ">
@@ -19,20 +13,11 @@ const AdminDashboard = () => {
 
 export default AdminDashboard;
 
-// // import React from "react";
-// // import Orders from "../components/orders";
-
-// // function page() {
-// //   return <Orders />;
-// // }
-
-// // export default page;
-
 // import React from "react";
-// import Users from "../components/users";
+// import Topping from "../components/toppings";
 
 // function page() {
-//   return <Users />;
+//   return <Topping />;
 // }
 
 // export default page;
