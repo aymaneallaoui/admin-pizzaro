@@ -22,8 +22,8 @@ const Tabs = ({ tabs, defaultTab }) => {
             key={tab}
             className={`py-2 px-4 mr-4 ${
               activeTab === tab
-                ? "btn btn-base-content glass"
-                : "btn btn-ghost glass mb-4"
+                ? "btn btn-base-content glass mb-4 mt-4"
+                : "btn btn-ghost  mb-4 mt-4"
             }`}
             onClick={() => handleTabClick(tab)}
           >
