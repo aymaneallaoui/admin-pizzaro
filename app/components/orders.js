@@ -10,8 +10,8 @@ function Orders() {
   const fetchData = useCallback(async () => {
     try {
       const [usersResponse, ordersResponse] = await Promise.all([
-        fetch("/api/users").then((response) => response.json()),
-        fetch("/api/orders").then((response) => response.json()),
+        fetch("/api/users",{cache: 'no-store',}).then((response) => response.json()),
+        fetch("/api/orders", {cache: 'no-store',}).then((response) => response.json()),
       ]);
 
       setUser(usersResponse);
