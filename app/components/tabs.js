@@ -15,23 +15,28 @@ const Tabs = ({ tabs, defaultTab }) => {
 
   return (
     <>
-      <nav className="sticky top-0   z-50  border-b border-gray-300 mb-4 backdrop-filter backdrop-blur-lg bg-opacity-30 ">
+      <nav className="sticky top-0   z-50  border-b border-gray-300 mb-4 backdrop-filter backdrop-blur-lg bg-opacity-30  ">
         {tabs.map((tab) => (
+          <>
           <button
             key={tab}
             className={`py-2 px-4 mr-4 ${
               activeTab === tab
-                ? "bg-blue-500 text-white"
-                : "bg-transparent text-blue-500"
+                ? "btn btn-base-content glass"
+                : "btn btn-ghost glass mb-4"
             }`}
             onClick={() => handleTabClick(tab)}
           >
+            
             {tab}
           </button>
+          
+          </>
         ))}
       </nav>
       {/* Add the content of the active tab */}
       {activeTab === "Orders" && <Orders />}
+     
       {activeTab === "Pizza managment" && <Pizza />}
       {activeTab === "clients" && <Users />}
       {activeTab === "toppings Management" && <Topping />}
