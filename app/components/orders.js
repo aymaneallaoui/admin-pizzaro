@@ -5,7 +5,7 @@ function Orders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [users, setUser] = useState([]);
-  const [selectedFilter, setSelectedFilter] = useState("all"); // Default to 'all' orders
+  const [selectedFilter, setSelectedFilter] = useState("all"); 
 
   const fetchData = useCallback(async () => {
     try {
@@ -42,7 +42,7 @@ function Orders() {
           return orderDate.toDateString() === currentDate.toDateString();
         });
       case "lastDay":
-        // Filter orders from the last 24 hours
+        
         const lastDay = new Date(currentDate);
         lastDay.setDate(lastDay.getDate() - 1);
         return orders.filter((order) => {
@@ -50,7 +50,7 @@ function Orders() {
           return orderDate >= lastDay;
         });
       case "last7Days":
-        // Filter orders from the last 7 days
+       
         const last7Days = new Date(currentDate);
         last7Days.setDate(last7Days.getDate() - 7);
         return orders.filter((order) => {
@@ -58,7 +58,7 @@ function Orders() {
           return orderDate >= last7Days;
         });
       case "lastMonth":
-        // Filter orders from the last month
+        
         const lastMonth = new Date(currentDate);
         lastMonth.setMonth(lastMonth.getMonth() - 1);
         return orders.filter((order) => {
