@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { Button } from "../components/button";
 
 const AdminDashboard = async () => {
-  // make the function async
+  // i turned comp into server comp
   const tabs = ["Orders", "Pizza managment", "clients", "toppings Management"];
 
   const session = await getServerSession(authOptions);

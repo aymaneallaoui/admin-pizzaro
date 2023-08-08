@@ -66,7 +66,7 @@ function Orders() {
           return orderDate >= lastMonth;
         });
       case "lastYear":
-        // Filter orders from the last year
+       
         const lastYear = new Date(currentDate);
         lastYear.setFullYear(lastYear.getFullYear() - 1);
         return orders.filter((order) => {
@@ -74,7 +74,7 @@ function Orders() {
           return orderDate >= lastYear;
         });
       default:
-        return orders; // 'all' orders
+        return orders;
     }
   };
   const filteredOrders = filterOrdersByTimeRange(selectedFilter);

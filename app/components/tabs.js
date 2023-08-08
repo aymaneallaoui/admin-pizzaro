@@ -1,4 +1,4 @@
-// components/Tabs.js
+
 "use client";
 import { useState } from "react";
 import Orders from "./orders";
@@ -34,14 +34,14 @@ const Tabs = ({ tabs, defaultTab }) => {
           </>
         ))}
       </nav>
-      {/* Add the content of the active tab */}
+     
       {activeTab === "Orders" && <Orders />}
      
       {activeTab === "Pizza managment" && <Pizza />}
       {activeTab === "clients" && <Users />}
       {activeTab === "toppings Management" && <Topping />}
 
-      {/* Add other tabs' content in a similar manner */}
+     
     </>
   );
 };
