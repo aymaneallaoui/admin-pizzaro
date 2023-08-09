@@ -27,11 +27,7 @@ function Orders() {
     fetchData();
   }, [fetchData]);
 
-  const totalAmountSum = useMemo(() => {
-    return orders.reduce((total, order) => {
-      return total + order.totalAmount;
-    }, 0);
-  }, [orders]);
+ 
 
   const filterOrdersByTimeRange = (timeRange) => {
     const currentDate = new Date();

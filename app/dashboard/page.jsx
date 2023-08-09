@@ -10,9 +10,7 @@ const AdminDashboard = async () => {
 
   const session = await getServerSession(authOptions);
 
-  if (!session) {
-    redirect( '/api/auth/signin');
-  }
+  
 
   return (
     <div className='p-8 bg-neutral-focus '>
